@@ -27,3 +27,8 @@ class FallEvent(models.Model):
 
     def __str__(self):
         return f"{self.user_id} - {self.timestamp}"
+
+class twilioAPI(models.Model):
+    account_sid = models.CharField(max_length=40)
+    auth_token = models.CharField(max_length=40)
+    tel = models.CharField(max_length=20)
