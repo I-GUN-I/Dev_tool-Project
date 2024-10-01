@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'devtool_project.urls'
+ROOT_URLCONF = 'safestep.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'devtool_project.wsgi.application'
+WSGI_APPLICATION = 'safestep.wsgi.application'
 
 ALLOWED_HOSTS = ['*']
 # Database

@@ -14,11 +14,16 @@ class Customer(models.Model):
     phone = models.CharField(max_length=20)
     address = models.CharField(max_length=500)
     contact = models.ForeignKey(Contact,on_delete = models.CASCADE, null=True)
+
+class Sensor(models.Model):
+    speed =  models.IntegerField()
+    location = models.CharField(max_length=500)
     
 
 class FallEvent(models.Model):
     user = models.CharField(max_length=100)
     timestamp = models.DateTimeField()
+    sensor = models.ForeignKey(Sensor,on_delete = models.CASCADE)
 
     def __str__(self):
         return f"{self.user_id} - {self.timestamp}"
