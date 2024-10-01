@@ -15,26 +15,28 @@ from twilio.rest import Client
 from twilio.base.exceptions import TwilioException
 from twilio.base.exceptions import TwilioException
 from twilio.rest import Client
+from report.models import *
 
 
 class Report(View):
     def get(self, request):
         return render(request,'index.html') 
     
-class ReportAction(View):
+class ReportAction(LoginRequiredMixin, View):
+    login_url = '/login/'
+    api = TwilioAPI.objects.first()
     def post(self, request):
-        account_sid = "AC0532f2d9baff64b18157f6b4275f9ef6"
-        auth_token = "5f39b7b14842a47d61049fde66c9b4f5"
+        api = TwilioAPI.objects.first()
+        account_sid = api.account_sid
+        auth_token = api.auth_token
         client = Client(account_sid, auth_token)
 
-        # The number you want to send the SMS to
-        to_number = "+66995610396"  # Change this to the recipient's number
-        from_number = "+19032283644"  # Your Twilio number
+        to_number = request.user.customer.phone
+        from_number = api.tel
 
         try:
-            # Send the SMS
             message = client.messages.create(
-                body="This is your message content!",  # Customize the message content
+                body="ตรวจพบการล้ม",
                 from_=from_number,
                 to=to_number
             )
