@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Remove Docker images and containers
-                    sh 'docker-compose down --rmi all --volumes --remove-orphans || true'
+                    sh 'docker compose down --rmi all --volumes --remove-orphans || true'
                     sh 'docker system prune -af'
                 }
             }
@@ -16,8 +16,8 @@ pipeline {
                 script {
                     dir('.') {
                         // Pull and start services using docker-compose
-                        sh 'docker-compose pull'
-                        sh 'docker-compose up -d'
+                        sh 'docker compose pull'
+                        sh 'docker compose up -d'
                     }
                 }
             }
