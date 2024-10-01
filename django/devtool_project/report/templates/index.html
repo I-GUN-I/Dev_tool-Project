@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .button {
+            background-color: #ff0000;
+            border: none;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            cursor: pointer;
+            width: 50vw;
+            height: 65vh;
+            border-radius: 50%;
+            font-size: 200%;
+        }
+    </style>
+</head>
+<body>
+    <div class="center">
+        <h1>Report Fall</h1>
+        <form action="/report/" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="button">Report Fall</button>
+        </form>
+    </div>
+</body>
+</html>
