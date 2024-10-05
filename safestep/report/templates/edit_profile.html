@@ -28,7 +28,7 @@
 
     <div class="container">
         <div class="form-container">
-            <h1>Edit Profile</h1>
+            <h1>{{ header_text }}</h1>
             <form method="post">
                 {% csrf_token %}
                 {{ form.non_field_errors }}
@@ -47,7 +47,7 @@
                     <label for="email">Email:{{ form.email}}</label>
                     {{ form.email.errors }}
                 </div>
-                
+
                 <div class="form-group">
                     <label for="address">address:{{ form.address}}</label>
                     {{ form.address.errors }}

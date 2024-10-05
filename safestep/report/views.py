@@ -116,7 +116,7 @@ class EditProfileView(View):
         my_user = User.objects.get(pk=user_id)
         customer_instance = Customer.objects.get(user=my_user)
         form = UserProfileForm(instance=customer_instance, user=request.user)
-        return render(request, 'edit_profile.html', {'form': form})
+        return render(request, 'edit_profile.html', {'form': form,'header_text': 'Edit Profile'} )
 
     def post(self, request,user_id):
         my_user = User.objects.get(pk=user_id)
@@ -124,7 +124,7 @@ class EditProfileView(View):
         form = UserProfileForm(request.POST, instance=customer_instance, user=my_user)
         if form.is_valid():
             form.save()
-        return redirect(reverse('profile', args=[request.user.id]))
+        return redirect(reverse('profile', args=[request.user.id]) )
     
 
 class AddContactView(View):
@@ -134,10 +134,12 @@ class AddContactView(View):
 
         if customer_instance.contact:
             form = ContactForm(instance=customer_instance.contact)
+            header_text = 'Edit Contact'
         else:
             form = ContactForm()
+            header_text = 'Add Contact'
 
-        return render(request, 'edit_profile.html', {'form': form})
+        return render(request, 'edit_profile.html', {'form': form, 'header_text' : header_text})
 
     def post(self, request, user_id):
         my_user = User.objects.get(pk=user_id)
@@ -145,8 +147,10 @@ class AddContactView(View):
 
         if customer_instance.contact:
             form = ContactForm(request.POST, instance=customer_instance.contact)
+            header_text = 'Edit Contact'
         else:
             form = ContactForm(request.POST)
+            header_text = 'Add Contact'
 
         if form.is_valid():
             contact_instance = form.save()
@@ -156,5 +160,5 @@ class AddContactView(View):
 
             return redirect(reverse('profile', args=[request.user.id]))
 
-        return render(request, 'edit_profile.html', {'form': form})
+        return render(request, 'edit_profile.html', {'form': form,'header_text' : header_text})
     
