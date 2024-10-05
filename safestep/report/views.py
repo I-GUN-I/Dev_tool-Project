@@ -100,3 +100,12 @@ class RegisterView(View):
         }
         return render(request, 'authentication/register.html', context)
     
+class UserProfileView(View):
+    def get(self, request,user_id):
+        customer = Customer.objects.get(pk=user_id)
+        context = {
+            'customer' : customer
+        }
+        # เรนเดอร์เทมเพลตพร้อมกับส่ง context ไป
+        return render(request, 'profile.html',context)
+    

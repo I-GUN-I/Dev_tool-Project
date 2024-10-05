@@ -31,31 +31,26 @@
         .navbar-custom {
             background-color: #463300;
         }
+        .custom-button {
+            background-color: #ff0000 !important;
+            border: none !important;
+            color: white !important;
+            padding: 20px !important;
+            text-align: center !important;
+            display: inline-block !important;
+            margin: 4px 2px !important;
+            cursor: pointer !important;
+            width: 50vw !important;
+            height: 65vh !important;
+            border-radius: 50% !important;
+            font-size: 200% !important;
+        }
     </style>
 </head>
 
 <body>
     {% block nav %}
-    <nav class="navbar navbar-expand-lg navbar-custom p-3">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <p class="nav-link text-light">Welcome, {{ user.username }}</p>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="{% url 'logout' %}"><b>Logout</b></a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link text-light" href="{% url 'login' %}"><b>Login</b></a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
+        {% include 'nav.html' %}
     {% endblock %}
     
     <div class="container py-4">
