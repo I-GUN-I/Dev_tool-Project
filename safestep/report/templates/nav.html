@@ -38,13 +38,18 @@
     </style>
 </head>
     {% if user.is_authenticated %}
-        <div class="navbar navbar-expand-lg navbar-light bg-primary text-white">
+        <div class="navbar navbar-expand-lg navbar-light text-white" style="background-color: #3fbb26;">
             <div class="container-fluid">
                 <a class="navbar-brand text-white" href="/index/">Index</a>
                 <div class="d-flex align-items-center">
-                    <div class="text-white me-3">{{ user.username }}</div>
-                    <a href="{% url 'profile' user.id %}" class="btn btn-info me-2">Profile</a>
-                    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+                    <div class="mx-3"> 
+                        <a href="{% url 'profile' user.id %}" >{{ user.username }}</a>
+
+                    </div>
+                    <div class="mx-3">
+                        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+
+                    </div>
                 </div>
             </div>
         </div>
