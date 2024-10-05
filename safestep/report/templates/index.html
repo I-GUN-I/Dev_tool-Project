@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+
 {% block content %}
-    <div class="center">
+    <div class="justify-content-center text-center align-items-center">
         <h1>Report Fall</h1>
         <form action="/report/" method="POST">
             {% csrf_token %}
-            <div  class="center">
+            <div  class="justify-content-center text-center align-items-center">
                 <button type="submit" class="custom-button">Report Fall</button>
 
             </div>
