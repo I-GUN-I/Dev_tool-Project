@@ -116,7 +116,7 @@ class EditProfileView(View):
         my_user = User.objects.get(pk=user_id)
         customer_instance = Customer.objects.get(user=my_user)
         form = UserProfileForm(instance=customer_instance, user=request.user)
-        return render(request, 'edit-profile.html', {'form': form})
+        return render(request, 'edit_profile.html', {'form': form})
 
     def post(self, request,user_id):
         my_user = User.objects.get(pk=user_id)
