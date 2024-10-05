@@ -6,7 +6,9 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-primary">Welcome, {{ customer.user.first_name }} {{ customer.user.last_name }}</h2>
-       
+        <a href="{% url 'edit-profile' user.id %}" class="btn btn-outline-primary">
+            <i class="fas fa-edit"></i> Edit Profile
+        </a>
     </div>
 
     <div class="row">
@@ -26,6 +28,7 @@
                     <h5 class="card-title text-primary">Profile Information</h5>
                     <p><strong>Name:</strong> {{ customer.user.first_name }} {{ customer.user.last_name }}</p>
                     <p><strong>Email:</strong> {{ customer.user.email }}</p>
+                    <p><strong>Address:</strong> {{ customer.address }}</p>
                     <p><strong>Phone:</strong> {{ customer.phone }}</p>
                 </div>
             </div>
@@ -40,5 +43,26 @@
             {% endif %}
         </div>
     </div>
+    {%if customer.contact %}
+        <a href="{% url 'add-contact' user.id %}" class="btn btn-outline-primary mb-3">
+            <i class="fas fa-edit"></i> Edit Contact
+        </a>
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h5 class="card-title text-primary">Contact</h5>
+                <p><strong>Name:</strong> {{ customer.contact.first_name }} {{ customer.contact.last_name }}</p>
+                <p><strong>Email:</strong> {{ customer.contact.email }}</p>
+                <p><strong>Address:</strong> {{ customer.contact.address }}</p>
+                <p><strong>Phone:</strong> {{ customer.contact.phone }}</p>
+            </div>
+        </div>
+    {%else%}
+        <div class="d-flex justify-content-center align-items-center mb-4">
+            <a href="{% url 'add-contact' user.id %}" class="btn btn-outline-primary">
+                <i class="fas fa-edit"></i> Add Contact
+            </a>
+        </div>
+    {%endif%}
+   
 </div>
 {% endblock %}

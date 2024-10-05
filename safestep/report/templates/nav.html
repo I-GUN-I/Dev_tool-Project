@@ -40,7 +40,7 @@
     {% if user.is_authenticated %}
         <div class="navbar navbar-expand-lg navbar-light bg-primary text-white">
             <div class="container-fluid">
-                <a class="navbar-brand text-white" href="/">Library</a>
+                <a class="navbar-brand text-white" href="/index/">Index</a>
                 <div class="d-flex align-items-center">
                     <div class="text-white me-3">{{ user.username }}</div>
                     <a href="{% url 'profile' user.id %}" class="btn btn-info me-2">Profile</a>

@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.urls import reverse
 from django.views import View
 from django.shortcuts import render, redirect
 from django.db.models import Value, Count, F,Sum
@@ -108,4 +109,52 @@ class UserProfileView(View):
         }
         # เรนเดอร์เทมเพลตพร้อมกับส่ง context ไป
         return render(request, 'profile.html',context)
+    
+class EditProfileView(View):
+    def get(self, request,user_id):
+        # ดึงข้อมูลของ Member ที่เกี่ยวข้องกับผู้ใช้ที่ล็อกอินอยู่
+        my_user = User.objects.get(pk=user_id)
+        customer_instance = Customer.objects.get(user=my_user)
+        form = UserProfileForm(instance=customer_instance, user=request.user)
+        return render(request, 'edit-profile.html', {'form': form})
+
+    def post(self, request,user_id):
+        my_user = User.objects.get(pk=user_id)
+        customer_instance = Customer.objects.get(user=my_user)
+        form = UserProfileForm(request.POST, instance=customer_instance, user=my_user)
+        if form.is_valid():
+            form.save()
+        return redirect(reverse('profile', args=[request.user.id]))
+    
+
+class AddContactView(View):
+    def get(self, request, user_id):
+        my_user = User.objects.get(pk=user_id)
+        customer_instance = Customer.objects.get(user=my_user)
+
+        if customer_instance.contact:
+            form = ContactForm(instance=customer_instance.contact)
+        else:
+            form = ContactForm()
+
+        return render(request, 'edit_profile.html', {'form': form})
+
+    def post(self, request, user_id):
+        my_user = User.objects.get(pk=user_id)
+        customer_instance = Customer.objects.get(user=my_user)
+
+        if customer_instance.contact:
+            form = ContactForm(request.POST, instance=customer_instance.contact)
+        else:
+            form = ContactForm(request.POST)
+
+        if form.is_valid():
+            contact_instance = form.save()
+
+            customer_instance.contact = contact_instance
+            customer_instance.save()
+
+            return redirect(reverse('profile', args=[request.user.id]))
+
+        return render(request, 'edit_profile.html', {'form': form})
     

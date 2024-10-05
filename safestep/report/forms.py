@@ -14,3 +14,38 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'phone', 'address', 'password1', 'password2')
+
+
+class UserProfileForm(ModelForm):
+    first_name = forms.CharField(max_length=30, required=True)
+    last_name = forms.CharField(max_length=30, required=True)
+    email = forms.EmailField(max_length=254, required=True)
+    address = forms.CharField(max_length=300, required=True)
+
+    class Meta:
+        model = Customer
+        fields = ['first_name', 'last_name', 'email', 'phone','address'] 
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields['first_name'].initial = user.first_name
+            self.fields['last_name'].initial = user.last_name
+            self.fields['email'].initial = user.email
+
+    def save(self, commit=True):
+        member = super(UserProfileForm, self).save(commit=False)
+        user = member.user  # Get the associated User object
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()  
+            member.save()  
+        return member
+    
+class ContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['first_name', 'last_name', 'email', 'phone','address'] 
