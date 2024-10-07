@@ -21,7 +21,11 @@ from report.models import *
 
 class Report(View):
     def get(self, request):
-        return render(request,'index.html') 
+        return render(request,'index.html')
+
+class SensorView(View):
+    def get(self, request):
+        return render(request,'sensor.html')
     
 class ReportAction(LoginRequiredMixin, View):
     login_url = '/login/'
