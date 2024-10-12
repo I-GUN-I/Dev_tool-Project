@@ -90,7 +90,6 @@ class RegisterView(View):
                 user = my_user,
                 phone = phone,
                 address = address,
-                contact=None
             )
             messages.success(request, 'Account created successfully')
             return redirect('login') 
