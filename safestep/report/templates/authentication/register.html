@@ -24,6 +24,16 @@
                 <label for="password" class="form-label">Password(again)</label>
                 <input type="password" class="form-control" id="password2" name="password2" required>
             </div>
+            {{ form.first_name.errors }}
+            <div class="mb-3">
+                <label for="first_name" class="form-label">First name</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" required>
+            </div>
+            {{ form.last_name.errors }}
+            <div class="mb-3">
+                <label for="last_name" class="form-label">Last name</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" required>
+            </div>
             {{ form.address.errors }}
             <div class="mb-3">
                 <label for="address" class="form-label">Address</label>
@@ -33,6 +43,11 @@
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone</label>
                 <input type="text" class="form-control" id="phone" name="phone" required>
+            </div>
+            {{ form.email.errors }}
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="email" name="email" required>
             </div>
             <button type="submit" class="btn btn-primary w-100">Register</button>
             <br>

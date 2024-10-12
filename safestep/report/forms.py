@@ -8,12 +8,14 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 class CustomUserCreationForm(UserCreationForm):
+    first_name = forms.CharField(max_length=100, required=True, help_text='Required')
+    last_name = forms.CharField(max_length=100, required=True, help_text='Required')
     phone = forms.CharField(max_length=30, required=True, help_text='Required')
     address = forms.CharField(max_length=30, required=True, help_text='Required')
-
+    email = forms.CharField(max_length=30, required=True, help_text='Required')
     class Meta:
         model = User
-        fields = ('username', 'phone', 'address', 'password1', 'password2')
+        fields = ('username', 'first_name','last_name','phone', 'address','email', 'password1', 'password2')
 
 
 class UserProfileForm(ModelForm):

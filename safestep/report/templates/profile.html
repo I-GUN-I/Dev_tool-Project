@@ -6,7 +6,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-primary">Welcome, {{ customer.user.first_name }} {{ customer.user.last_name }}</h2>
-        <a href="{% url 'edit-profile' user.id %}" class="btn btn-outline-primary">
+        <a href="{% url 'edit-profile' user.customer.id %}" class="btn btn-outline-primary">
             <i class="fas fa-edit"></i> Edit Profile
         </a>
     </div>
@@ -15,9 +15,9 @@
         <div class="col-md-4">
             <div class="card shadow-sm mb-4">
                 <div class="card-body text-center">
-                    <img src="https://via.placeholder.com/100" class="rounded-circle mb-3" alt="Profile Image">
+                    <img src="https://community.st.com/legacyfs/online/avatars/005" class="rounded-circle mb-3" alt="Profile Image">
                     <h5 class="card-title">{{ customer.user.first_name }} {{ customer.user.last_name }}</h5>
-                    <a href="#" class="btn btn-link">Change Image</a>
+            
                 </div>
             </div>
         </div>
@@ -43,26 +43,25 @@
             {% endif %}
         </div>
     </div>
-    {%if customer.contact %}
-        <a href="{% url 'add-contact' user.id %}" class="btn btn-outline-primary mb-3">
-            <i class="fas fa-edit"></i> Edit Contact
-        </a>
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h5 class="card-title text-primary">Contact</h5>
-                <p><strong>Name:</strong> {{ customer.contact.first_name }} {{ customer.contact.last_name }}</p>
-                <p><strong>Email:</strong> {{ customer.contact.email }}</p>
-                <p><strong>Address:</strong> {{ customer.contact.address }}</p>
-                <p><strong>Phone:</strong> {{ customer.contact.phone }}</p>
+        {% for contact in customer.contacts.all %} 
+            <a href="{% url 'edit-contact' user.id contact.id %}" class="btn btn-outline-primary mb-3">
+                <i class="fas fa-edit"></i> Edit Contact
+            </a>
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Contact</h5>
+                    <p><strong>Name:</strong> {{ contact.first_name }} {{ contact.last_name }}</p>
+                    <p><strong>Email:</strong> {{ contact.email }}</p>
+                    <p><strong>Address:</strong> {{ contact.address }}</p>
+                    <p><strong>Phone:</strong> {{ contact.phone }}</p>
+                </div>
             </div>
-        </div>
-    {%else%}
+        {%endfor%}
         <div class="d-flex justify-content-center align-items-center mb-4">
             <a href="{% url 'add-contact' user.id %}" class="btn btn-outline-primary">
                 <i class="fas fa-edit"></i> Add Contact
             </a>
         </div>
-    {%endif%}
    
 </div>
 {% endblock %}

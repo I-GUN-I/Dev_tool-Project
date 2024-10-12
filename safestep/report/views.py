@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.urls import reverse
 from django.views import View
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.db.models import Value, Count, F,Sum
 from django.db.models.functions import Concat
 from datetime import datetime
@@ -131,38 +131,87 @@ class EditProfileView(View):
         return redirect(reverse('profile', args=[request.user.id]) )
     
 
-class AddContactView(View):
-    def get(self, request, user_id):
+class AddEditContactView(View):
+    def get(self, request, user_id, contact_id=None):
         my_user = User.objects.get(pk=user_id)
         customer_instance = Customer.objects.get(user=my_user)
 
-        if customer_instance.contact:
-            form = ContactForm(instance=customer_instance.contact)
+        # If contact_id is provided, we are editing an existing contact
+        if contact_id:
+            contact_instance = get_object_or_404(Contact, id=contact_id, customer=customer_instance)
+            form = ContactForm(instance=contact_instance)
             header_text = 'Edit Contact'
         else:
+            # Otherwise, we are adding a new contact
             form = ContactForm()
             header_text = 'Add Contact'
 
-        return render(request, 'edit_profile.html', {'form': form, 'header_text' : header_text})
+        return render(request, 'edit_profile.html', {'form': form, 'header_text': header_text})
 
-    def post(self, request, user_id):
+    def post(self, request, user_id, contact_id=None):
         my_user = User.objects.get(pk=user_id)
         customer_instance = Customer.objects.get(user=my_user)
 
-        if customer_instance.contact:
-            form = ContactForm(request.POST, instance=customer_instance.contact)
+        # If contact_id is provided, we are editing an existing contact
+        if contact_id:
+            contact_instance = get_object_or_404(Contact, id=contact_id, customer=customer_instance)
+            form = ContactForm(request.POST, instance=contact_instance)
             header_text = 'Edit Contact'
         else:
+            # Otherwise, we are adding a new contact
             form = ContactForm(request.POST)
             header_text = 'Add Contact'
 
         if form.is_valid():
-            contact_instance = form.save()
-
-            customer_instance.contact = contact_instance
-            customer_instance.save()
+            contact_instance = form.save(commit=False)
+            contact_instance.customer = customer_instance  # Associate the contact with the customer
+            contact_instance.save()
 
             return redirect(reverse('profile', args=[request.user.id]))
 
-        return render(request, 'edit_profile.html', {'form': form,'header_text' : header_text})
+        return render(request, 'edit_profile.html', {'form': form, 'header_text': header_text})
+
     
+
+
+
+
+
+
+
+    
+# class AddContactView(View):
+#     def get(self, request, user_id):
+#         my_user = User.objects.get(pk=user_id)
+#         customer_instance = Customer.objects.get(user=my_user)
+
+#         if customer_instance.contact:
+#             form = ContactForm(instance=customer_instance.contact)
+#             header_text = 'Edit Contact'
+#         else:
+#             form = ContactForm()
+#             header_text = 'Add Contact'
+
+#         return render(request, 'edit_profile.html', {'form': form, 'header_text' : header_text})
+
+#     def post(self, request, user_id):
+#         my_user = User.objects.get(pk=user_id)
+#         customer_instance = Customer.objects.get(user=my_user)
+
+#         if customer_instance.contact:
+#             form = ContactForm(request.POST, instance=customer_instance.contact)
+#             header_text = 'Edit Contact'
+#         else:
+#             form = ContactForm(request.POST)
+#             header_text = 'Add Contact'
+
+#         if form.is_valid():
+#             contact_instance = form.save()
+
+#             customer_instance.contact = contact_instance
+#             customer_instance.save()
+
+#             return redirect(reverse('profile', args=[request.user.id]))
+
+#         return render(request, 'edit_profile.html', {'form': form,'header_text' : header_text})
+

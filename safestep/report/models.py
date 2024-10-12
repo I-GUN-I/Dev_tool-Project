@@ -3,6 +3,7 @@ from django.contrib.auth.models import *
 
 
 class Contact(models.Model):
+    customer = models.ForeignKey("Customer", on_delete=models.CASCADE, related_name="contacts")
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     email = models.EmailField(max_length=200)
@@ -13,7 +14,6 @@ class Customer(models.Model):
     user = models.OneToOneField(User,on_delete= models.PROTECT)
     phone = models.CharField(max_length=20)
     address = models.CharField(max_length=500)
-    contact = models.ForeignKey(Contact,on_delete = models.CASCADE, null=True)
 
 class Sensor(models.Model):
     speed =  models.IntegerField()

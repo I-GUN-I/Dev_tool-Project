@@ -44,7 +44,7 @@
                 <a class="navbar-brand text-white" href="/sensor/">Sensor</a>
                 <div class="d-flex align-items-center">
                     <div class="mx-3"> 
-                        <a href="{% url 'profile' user.id %}" >{{ user.username }}</a>
+                        <a href="{% url 'profile' user.customer.id %}" >{{ user.username }}</a>
 
                     </div>
                     <div class="mx-3">
