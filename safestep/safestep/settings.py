@@ -78,8 +78,8 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "safestep",
         "USER":  "postgres",
-        "PASSWORD": "1234",
-        "HOST": "34.172.151.247",
+        "PASSWORD": "=}57,bKO1}'4d{X0",
+        "HOST": "34.87.4.55",
         "PORT": "5432",
     }
 }
