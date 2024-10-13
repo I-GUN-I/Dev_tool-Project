@@ -7,5 +7,3 @@ services:
       - ./safestep:/Dev_tool-Project  # Mount Django code into the container
     ports:
       - "8000:8000"  # Open port for Django access
-    environment:
-      - DATABASE_URL=postgres://postgres:1234@34.172.151.247:5432/safestep  # Google Cloud PostgreSQL connection
