@@ -19,14 +19,18 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class UserProfileForm(ModelForm):
-    first_name = forms.CharField(max_length=30, required=True)
-    last_name = forms.CharField(max_length=30, required=True)
-    email = forms.EmailField(max_length=254, required=True)
-    address = forms.CharField(max_length=300, required=True)
+    first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(max_length=254, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Customer
         fields = ['first_name', 'last_name', 'email', 'phone','address'] 
+        widgets = {
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
