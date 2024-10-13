@@ -47,7 +47,18 @@ class UserProfileForm(ModelForm):
             member.save()  
         return member
     
-class ContactForm(ModelForm):
+from django import forms
+from .models import Contact
+
+class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
-        fields = ['first_name', 'last_name', 'email', 'phone','address'] 
+        fields = ['first_name', 'last_name', 'email', 'phone', 'address']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+

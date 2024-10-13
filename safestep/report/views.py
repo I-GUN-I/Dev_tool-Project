@@ -135,13 +135,11 @@ class AddEditContactView(View):
         my_user = User.objects.get(pk=user_id)
         customer_instance = Customer.objects.get(user=my_user)
 
-        # If contact_id is provided, we are editing an existing contact
         if contact_id:
             contact_instance = get_object_or_404(Contact, id=contact_id, customer=customer_instance)
             form = ContactForm(instance=contact_instance)
             header_text = 'Edit Contact'
         else:
-            # Otherwise, we are adding a new contact
             form = ContactForm()
             header_text = 'Add Contact'
 
