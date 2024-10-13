@@ -16,14 +16,19 @@ class Customer(models.Model):
     address = models.CharField(max_length=500)
 
 class Sensor(models.Model):
-    speed =  models.IntegerField()
-    location = models.CharField(max_length=500)
+    alpha = models.DecimalField(max_digits=6,decimal_places=2,default=0)
+    beta = models.DecimalField(max_digits=6,decimal_places=2,default=0)
+    gamma = models.DecimalField(max_digits=6,decimal_places=2,default=0)
+    accelerationX = models.DecimalField(max_digits=6,decimal_places=2,default=0)
+    accelerationY = models.DecimalField(max_digits=6,decimal_places=2,default=0)
+    accelerationZ = models.DecimalField(max_digits=6,decimal_places=2,default=0)
+    magnitude = models.DecimalField(max_digits=6,decimal_places=2,default=0)
     
 
 class FallEvent(models.Model):
     user = models.CharField(max_length=100)
     timestamp = models.DateTimeField()
-    sensor = models.ForeignKey(Sensor,on_delete = models.CASCADE)
+    sensor = models.ForeignKey(Sensor,on_delete = models.CASCADE,null=True)
 
     def __str__(self):
         return f"{self.user_id} - {self.timestamp}"

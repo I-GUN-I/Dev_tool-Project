@@ -14,14 +14,18 @@ from django.contrib.auth.models import *
 from django.contrib.contenttypes.models import ContentType
 from twilio.rest import Client
 from twilio.base.exceptions import TwilioException
-from twilio.base.exceptions import TwilioException
-from twilio.rest import Client
 from report.models import *
+from django.contrib import messages
 
 
-class Report(View):
+class Report(LoginRequiredMixin,View):
+    login_url = '/login/'
     def get(self, request):
-        return render(request,'index.html')
+        fall = FallEvent.objects.filter(user=request.user.username)
+        context ={
+            "fall_data":fall
+        }
+        return render(request,'index.html',context)
 
 class SensorView(View):
     def get(self, request):
@@ -30,6 +34,7 @@ class SensorView(View):
 class ReportAction(LoginRequiredMixin, View):
     login_url = '/login/'
     api = TwilioAPI.objects.first()
+    
     def post(self, request):
         api = TwilioAPI.objects.first()
         account_sid = api.account_sid
@@ -40,15 +45,47 @@ class ReportAction(LoginRequiredMixin, View):
         from_number = api.tel
 
         try:
-            message = client.messages.create(
+            client.messages.create(
                 body="ตรวจพบการล้ม",
                 from_=from_number,
                 to=to_number
             )
+            messages.success(request, "ทำการแจ้งเตือนการล้ม")
 
-            return HttpResponse(f"SMS sent with SID: {message.sid}")  # Return the SID of the sent message
+            alpha = request.POST.get("alpha")
+            beta = request.POST.get("beta")
+            gamma = request.POST.get("gamma")
+            accelerationX = request.POST.get("accelerationX")
+            accelerationY = request.POST.get("accelerationY")
+            accelerationZ = request.POST.get("accelerationZ")
+            magnitude = request.POST.get("magnitude")
+
+            # Check if any of the required fields are missing or empty
+            if not all([alpha, beta, gamma, accelerationX, accelerationY, accelerationZ, magnitude]):
+                sensors = None
+            
+            else:
+                sensors = Sensor(
+                    alpha=alpha,
+                    beta=beta,
+                    gamma=gamma,
+                    accelerationX=accelerationX,
+                    accelerationY=accelerationY,
+                    accelerationZ=accelerationZ,
+                    magnitude=magnitude
+                )
+                sensors.save()
+            fall = FallEvent(
+                user = request.user,
+                timestamp = datetime.now(),
+                sensor = sensors
+            )
+            fall.save()
         except TwilioException as e:
-            return HttpResponse(f"Failed to send SMS: {str(e)}", status=500)
+            messages.error(request, f"Failed to send SMS: {str(e)}")  # Store error message
+
+        referer = request.META.get('HTTP_REFERER', '/')
+        return redirect(referer)
 
 
 class LoginView(View):
@@ -88,7 +125,7 @@ class RegisterView(View):
             address = form.cleaned_data.get('address')
             Customer.objects.create(
                 user = my_user,
-                phone = phone,
+                phone = phone,  
                 address = address,
             )
             messages.success(request, 'Account created successfully')
