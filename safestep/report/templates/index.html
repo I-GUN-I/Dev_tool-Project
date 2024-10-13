@@ -27,6 +27,8 @@
                 </tr>
             </thead>
             <tbody>
+                {% load tz %}
+                {% timezone "Asia/Bangkok" %}
                 {% for fall in fall_data %}
                 <tr>
                     <td>{{ fall.timestamp|date:"F d, Y H:i:s" }}</td>
@@ -43,6 +45,7 @@
                     <td colspan="8" class="text-center">No fall data recorded yet.</td>
                 </tr>
                 {% endfor %}
+                {% endtimezone %}
             </tbody>
         </table>
     </div>
