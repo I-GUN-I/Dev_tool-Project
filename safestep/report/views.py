@@ -18,9 +18,14 @@ from report.models import *
 from django.contrib import messages
 
 
-class Report(View):
+class Report(LoginRequiredMixin,View):
+    login_url = '/login/'
     def get(self, request):
-        return render(request,'index.html')
+        fall = FallEvent.objects.filter(user=request.user.username)
+        context ={
+            "fall_data":fall
+        }
+        return render(request,'index.html',context)
 
 class SensorView(View):
     def get(self, request):
